@@ -72,6 +72,10 @@ jobs:
     name: Build dazpy Wheel
     uses: ./.github/workflows/build-dazpy.yml
 
+  build-daz-ts:
+    name: Build daz-ts Package
+    uses: ./.github/workflows/build-daz-ts.yml
+
   publish-pypi:
     name: Publish dazpy to PyPI
     needs: build-dazpy
@@ -99,6 +103,7 @@ jobs:
       - build-macos-intel-ds6
       - build-macos-arm-ds6
       - build-dazpy
+      - build-daz-ts
       - publish-pypi
     runs-on: ubuntu-latest
 
@@ -157,6 +162,9 @@ jobs:
             echo ""
             echo "### Python"
             echo "- **Python Package:** \`dazpy-*.whl\`"
+            echo ""
+            echo "### TypeScript"
+            echo "- **daz-ts Package:** \`daz-ts-*.tgz\`"
           } > release_notes.md
 
       - name: Download all artifacts
@@ -186,6 +194,9 @@ jobs:
 
           # dazpy wheel
           cp artifacts/dazpy-dist/*.whl release-assets/
+
+          # daz-ts tarball
+          cp artifacts/daz-ts-dist/*.tgz release-assets/
 
           # List all files
           echo "Release assets:"
